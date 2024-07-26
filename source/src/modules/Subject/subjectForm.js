@@ -39,7 +39,6 @@ const subjectForm = () => {
             message.error('Failed to save subject');
         }
     };
-
     return (
         <div style={{ padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
             <Breadcrumb style={{ margin: '16px 0' }}>

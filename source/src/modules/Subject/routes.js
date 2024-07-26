@@ -1,6 +1,5 @@
 import apiConfig from "@constants/apiConfig";
 import SubjectListPage from "./subjectListPage";
-import SubjectSavePage from "./SubjectSavePage";
 import subjectForm from "./subjectForm";
 
 

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getSubject, createSubject, updateSubject } from './subjectService';
 import { Form, Input, Button, Breadcrumb, message } from 'antd';
-
 const { TextArea } = Input;
 
 const SubjectSavePage = () => {

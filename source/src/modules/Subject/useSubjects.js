@@ -5,7 +5,6 @@ import { message } from 'antd';
 const useSubjects = () => {
     const [subjects, setSubjects] = useState([]);
     const [loading, setLoading] = useState(false);
-
     // Fetch all subjects
     const fetchSubjects = useCallback(async () => {
         setLoading(true);
