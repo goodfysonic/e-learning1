@@ -25,10 +25,17 @@ const navMenuConfig = [
             },
                 
             {
-                label: <FormattedMessage defaultMessage="Danh sách môn học" />,
-                key: 'subject-list',
+                label: <FormattedMessage defaultMessage="Quản lý môn học" />,
+                key: 'subject-manangemennt',
                 path: routes.subjectListPage.path,
                 permission: apiConfig.subject.getList.baseURL,
+            },
+
+            {
+                label: <FormattedMessage defaultMessage="Quản lý khóa học" />,
+                key: 'course-manangemennt',
+                path: routes.courseListPage.path,
+                permission: apiConfig.course.getList.baseURL,
             },
         ],
     },

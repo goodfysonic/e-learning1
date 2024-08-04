@@ -7,6 +7,7 @@ import useTranslate from '@hooks/useTranslate';
 import useSaveBase from '@hooks/useSaveBase';
 import { generatePath, useParams } from 'react-router-dom';
 import { defineMessages } from 'react-intl';
+
 const message = defineMessages({
     objectName:'Sinh viên',
     student: 'Sinh viên',
