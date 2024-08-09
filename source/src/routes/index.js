@@ -15,6 +15,7 @@ import studentRoutes from '@modules/account/student/routes';
 import subjectRoutes from '@modules/subject_management/subject/routes';
 import courseRoutes from '@modules/subject_management/course/routes';
 import lectureRoutes from '@modules/subject_management/lecture/routes';
+import taskRoutes from '@modules/subject_management/task/routes';
 /*
     auth
         + null: access login and not login
@@ -57,6 +58,7 @@ const routes = {
     ...subjectRoutes,
     ...courseRoutes,
     ...lectureRoutes,
+    ...taskRoutes,
     //
   
    

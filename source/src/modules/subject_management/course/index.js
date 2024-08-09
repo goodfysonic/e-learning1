@@ -3,14 +3,14 @@ import PageWrapper from '@components/common/layout/PageWrapper';
 import BaseTable from '@components/common/table/BaseTable';
 import { AppConstants, DEFAULT_TABLE_ITEM_SIZE } from '@constants';
 import apiConfig from '@constants/apiConfig';
-import { statusOptions } from '@constants/masterData';
+import { dataTypeSetting, settingGroups, statusOptions } from '@constants/masterData';
 import useFetch from '@hooks/useFetch';
 import useListBase from '@hooks/useListBase';
 import useTranslate from '@hooks/useTranslate';
 import routes from '@routes';
 import { formatMoney } from '@utils';
-import { Button } from 'antd';
-import { UserOutlined, ReadOutlined } from '@ant-design/icons';
+import { Button, Switch } from 'antd';
+import { UserOutlined, ReadOutlined, EditOutlined, DeleteOutlined, BookOutlined } from '@ant-design/icons';
 import React from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
@@ -21,7 +21,8 @@ import { commonMessage } from '@locales/intl';
 import { lectureState } from '@constants/masterData';
 import useMoneyUnit from '@hooks/useMoneyUnit';
 import { Tag } from 'antd';
-import dayjs from 'dayjs'; 
+import dayjs from 'dayjs';
+import { actions } from '@store/actions/app';
 
 const messages = defineMessages({
     objectName: 'Khóa học',
@@ -56,7 +57,7 @@ const CourseListPage = () => {
     });
 
     const moneyUnit = useMoneyUnit();
-    
+
     const columns = [
         {
             title: '#',
@@ -133,10 +134,25 @@ const CourseListPage = () => {
             },
         },
         mixinFuncs.renderStatusColumn({ width: '120px' }),
+        mixinFuncs.additionalActionColumnButtons = () => ({
+            task: (item) => (
+                <Button
+                    type="link"
+                    style={{ padding: 0 }}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/course/task?courseId=${item.id}&courseName=${item.name}&subjectId=${item.subject.id}&state=${item.state}&courseStatus=${item.status}`);
+                    }}
+                >
+                    <BookOutlined />
+                </Button>
+            ),
+        }),
         mixinFuncs.renderActionColumn(
             {
                 edit: true,
                 delete: true,
+                task: true,
             },
             { width: 200 },
         ),
