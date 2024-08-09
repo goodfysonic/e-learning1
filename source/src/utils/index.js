@@ -1,8 +1,11 @@
 import qs from 'query-string';
 import {
+    AppConstants,
     CurrentcyPositions as CurrencyPositions,
     CurrentcyPositions,
     DATE_FORMAT_DISPLAY,
+    DATE_FORMAT_END_OF_DAY_TIME,
+    DATE_FORMAT_ZERO_TIME,
     DATE_SHORT_MONTH_FORMAT,
     DEFAULT_FORMAT,
     DEFAULT_TABLE_ITEM_SIZE,
@@ -100,7 +103,19 @@ export const formatNumber = (value, setting) => {
 };
 
 export const formatDateString = (dateString, formatDate = DATE_SHORT_MONTH_FORMAT) => {
+    return dayjs(dateString).utc().format(formatDate);
+};
+export const formatDateStringLocal = (dateString, formatDate = DATE_SHORT_MONTH_FORMAT) => {
     return dayjs(dateString).format(formatDate);
+};
+export const formatEndDate = (dueDate, formatDate = DEFAULT_FORMAT) => {
+    const dueDateWithTime = dayjs(dueDate).set('hour', 23).set('minute', 59).set('second', 59);
+
+    const dueDateInUTC = dueDateWithTime.utc();
+    const dueDateMinus7Hours = dueDateWithTime.subtract(7, 'hours');
+
+    const formattedDueDateInUTC = dueDateInUTC.format(formatDate);
+    return formattedDueDateInUTC;
 };
 
 export const removeAccents = (str) => {
@@ -463,9 +478,9 @@ export const formatMoneyValue = (value) => {
 export const calculateTimes = (data) => {
     return data.reduce(
         (acc, item) => {
-            if (item?.kind === 1) {
+            if (item?.projectTaskInfo?.kind === 1 || item?.projectTaskInfo?.kind === 3) {
                 acc.upTime += item?.totalTime;
-            } else if (item?.kind === 200) {
+            } else if (item?.projectTaskInfo?.kind === 2) {
                 acc.bugTime += item?.totalTime;
             }
             return acc;
@@ -490,3 +505,28 @@ export const calculateTrainingTimes = (data) => {
         { completeTime: 0, assignedTime: 0, differenceTime: 0 },
     );
 };
+
+
+export function convertRTE(value, key) {
+    return value?.replace(new RegExp(AppConstants.contentRootUrl, 'g'), key);
+}
+
+export function replaceURLPlaceholder(value, key) {
+    return value?.replace(new RegExp(key, 'g'), AppConstants.contentRootUrl);
+}
+
+
+export const formatDateToZeroTime = (date) => {
+    const dateString = dayjs(date).format(DATE_FORMAT_ZERO_TIME);
+    return dayjs(dateString, DEFAULT_FORMAT).utc().format(DEFAULT_FORMAT);
+};
+export const formatDateToEndOfDayTime = (date) => {
+    const dateString = dayjs(date).format(DATE_FORMAT_END_OF_DAY_TIME);
+    return dayjs(dateString, DEFAULT_FORMAT).utc().format(DEFAULT_FORMAT);
+};
+
+export const encryptValue = (date) => {
+    const dateString = dayjs(date).format(DATE_FORMAT_END_OF_DAY_TIME);
+    return dayjs(dateString, DEFAULT_FORMAT).utc().format(DEFAULT_FORMAT);
+};
+

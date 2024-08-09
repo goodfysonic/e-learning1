@@ -1,74 +1,72 @@
-import React, { useEffect, useState } from 'react';
-import { defineMessages } from 'react-intl';
-import useTranslate from '@hooks/useTranslate';
-import { generatePath, useNavigate, useParams } from 'react-router-dom'; // Thêm useParams
-import routes from './routes';
-import apiConfig from '@constants/apiConfig';
-import CourseForm from './CourseForm';
-import { showErrorMessage } from '@services/notifyService';
-import { commonMessage } from '@locales/intl';
-import useFetch from '@hooks/useFetch';
-import useSaveBase from '@hooks/useSaveBase';
 import PageWrapper from '@components/common/layout/PageWrapper';
-import { commonStatus } from '@constants';
+import apiConfig from '@constants/apiConfig';
+import useSaveBase from '@hooks/useSaveBase';
+import useTranslate from '@hooks/useTranslate';
+import { commonMessage } from '@locales/intl';
+import { showErrorMessage } from '@services/notifyService';
+import React, { useEffect } from 'react';
+import { defineMessages } from 'react-intl';
+import { generatePath, useParams } from 'react-router-dom';
+import CourseForm from './CourseForm';
+import routes from './routes';
+import useFetch from '@hooks/useFetch';
+import { VERSION_STATE_REJECT } from '@constants';
 
- 
 const messages = defineMessages({
-    objectName: 'Khóa học',
+    objectName: 'khoá học',
 });
 
 const CourseSavePage = () => {
+    const courseId = useParams();
     const translate = useTranslate();
-    const navigate = useNavigate();
-    const { id: courseId } = useParams(); // Lấy courseId từ URL
-    const [courseData, setCourseData] = useState(null);
-    const isEditing = Boolean(courseId); // Xác định là edit hay là create
-    const {
-        detail,
-        mixinFuncs,
-        loading,
-        setIsChangedFormValues,
-        title,
-    } = useSaveBase({
+    const { detail, mixinFuncs, loading, setIsChangedFormValues, isEditing, title } = useSaveBase({
         apiConfig: {
             getById: apiConfig.course.getById,
             create: apiConfig.course.create,
             update: apiConfig.course.update,
         },
         options: {
-            getListUrl: generatePath(routes.courseListPage.path, {}),
+            getListUrl: generatePath(routes.courseListPage.path, { courseId }),
             objectName: translate.formatMessage(messages.objectName),
         },
-
         override: (funcs) => {
-            funcs.prepareUpdateData = (data) => ({
-                ...data,
-                id: detail.id,  
-                status: commonStatus.ACTIVE,
-            });
-
-            funcs.prepareCreateData = (data) => ({
-                ...data,
-                status: commonStatus.ACTIVE,
-            });
-
+            funcs.prepareUpdateData = (data) => {
+                return {
+                    ...data,
+                    id: detail.id,
+                };
+            };
+            funcs.prepareCreateData = (data) => {
+                return {
+                    ...data,
+                };
+            };
             funcs.onSaveError = (err) => {
-                console.error("Save Error:", err.response?.data || err.message || err);
-                const message = err.response?.data?.message || 'An error occurred';
-                showErrorMessage(message);
+                if (err.response.data.code === 'ERROR-COURSE-ERROR-0001') {
+                    showErrorMessage('Khóa học đã tồn tại');
+                } else if (err.response.data.code === 'ERROR-COURSE-ERROR-0010') {
+                    showErrorMessage('Học phí phải lớn hơn phí hoàn trả');
+                } else {
+                    mixinFuncs.handleShowErrorMessage(err, showErrorMessage);
+                }
                 mixinFuncs.setSubmit(false);
             };
         },
     });
 
+    const { execute: executeResetRejected } = useFetch(apiConfig.courseReviewHistory.resetRejected, {
+        immediate: false,
+    });
+
     useEffect(() => {
-        if (courseId) {
-            fetch(`/api/courses/${courseId}`)
-                .then(response => response.json())
-                .then(data => setCourseData(data))
-                .catch(error => console.error('Error fetching course data:', error));
+        if (detail?.courseReviewHistory?.state === VERSION_STATE_REJECT) {
+            executeResetRejected({
+                data: {
+                    id: detail?.courseReviewHistory?.id,
+                },
+            });
         }
-    }, [courseId]);
+    }, [ detail ]);
 
     return (
         <PageWrapper
@@ -76,16 +74,15 @@ const CourseSavePage = () => {
             routes={[
                 {
                     breadcrumbName: translate.formatMessage(commonMessage.course),
-                    path: generatePath(routes.courseListPage.path, {}),
+                    path: generatePath(routes.courseListPage.path, { courseId }),
                 },
                 { breadcrumbName: title },
             ]}
             title={title}
         >
             <CourseForm
-                courseId={courseId} // Truyền courseId vào Form
                 setIsChangedFormValues={setIsChangedFormValues}
-                dataDetail={detail || {}}
+                dataDetail={detail ? detail : {}}
                 formId={mixinFuncs.getFormId()}
                 isEditing={isEditing}
                 actions={mixinFuncs.renderActions()}
