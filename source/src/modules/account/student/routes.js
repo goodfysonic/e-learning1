@@ -2,8 +2,6 @@ import apiConfig from "@constants/apiConfig";
 import StudentListPage from ".";
 import StudentSavePage from "./studentSavePage";
 
-
-
 export default {
     studentListPage: {
         path: '/student',
@@ -19,6 +17,4 @@ export default {
         component: StudentSavePage,
         permissions: [apiConfig.student.create.baseURL, apiConfig.student.update.baseURL],
     },
-   
-   
 };

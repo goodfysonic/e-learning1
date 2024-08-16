@@ -5,6 +5,7 @@ export const apiTenantUrl = 'http://api-path/';
 export const apiTenantId = process.env.REACT_APP_TENANT_ID;
 export const enableExposure = process.env.REACT_APP_ENABLE_EXPOSURE === 'true';
 export const envType = process.env.REACT_APP_ENV;
+export const urlVariable = '{URL}';
 
 export const fixedPath = {
     privacy: `${apiUrl}${process.env.REACT_APP_PRIVACY_PATH}`,
@@ -26,6 +27,8 @@ export const storageKeys = {
     TENANT_API_URL: `${appName}-${process.env.REACT_APP_ENV}-tenant-api-url`,
     USER_PROJECT_ACCESS_TOKEN: `${appName}-${process.env.REACT_APP_ENV}-user-project-access-token`,
     PROJECT_PERMISSION: `${appName}-${process.env.REACT_APP_ENV}-project-permission`,
+    TAB_ACTIVE_TASK: `${appName}-${process.env.REACT_APP_ENV}-tab-active-task`,
+
 };
 
 export const baseHeader = {
@@ -67,6 +70,8 @@ export const DEFAULT_FORMAT = 'DD/MM/YYYY HH:mm:ss';
 export const DATE_FORMAT_ZERO_TIME = 'DD/MM/YYYY 00:00:00';
 export const DATE_FORMAT_END_OF_DAY_TIME = 'DD/MM/YYYY 23:59:59';
 export const DEFAULT_EXCEL_DATE = 'DDMMYYHHmmss';
+export const DEFAULT_FORMAT_DAY_OFF_LOG = 'DD/MM/YYYY HH:mm:00';
+export const DEFAULT_FORMAT_ZERO_SECOND = 'DD/MM/YYYY HH:mm:00';
 
 export const PAYOUT_PERIOD_STATE_PENDING = 0;
 export const PAYOUT_PERIOD_STATE_CALCULATED = 1;
@@ -106,6 +111,7 @@ export const STATUS_DELETE = -2;
 export const FIX_SALARY = 1;
 export const HOUR_SALARY = 2;
 
+export const INTERN_KIND_PROJECT = 3;
 export const DEV_KIND_PROJECT = 2;
 export const LEADER_KIND_PROJECT = 1;
 export const STATE_ORDER_CANCEL = -1;
@@ -132,6 +138,14 @@ export const STATE_PROJECT_TASK_CREATE = 1;
 export const STATE_PROJECT_TASK_PROCESSING = 2;
 export const STATE_PROJECT_TASK_DONE = 3;
 export const STATE_PROJECT_TASK_CANCEL = 4;
+export const STATE_PROJECT_TASK_TESTING = 5;
+
+
+export const STATE_PROJECT_CREATE = 1;
+export const STATE_PROJECT_RUNNING = 2;
+export const STATE_PROJECT_DONE = 3;
+export const STATE_PROJECT_CANCEL = 4;
+export const STATE_PROJECT_FAILED = 5;
 
 
 export const STATE_PROJECT_STORY_CREATE = 1;
@@ -166,7 +180,7 @@ export const UserTypes = {
     STUDENT: 3,
     LEADER: 4,
     COMPANY: 5,
-    DEVELOPER : 4,
+    DEVELOPER: 4,
 };
 
 export const LEADER_LOGIN_TYPE = 'leader';
@@ -185,7 +199,8 @@ export const loginOptions = [
 export const commonStatusColor = {
     [commonStatus.PENDING]: 'warning',
     [commonStatus.ACTIVE]: 'green',
-    ['-1']: 'red',
+    [commonStatus.INACTIVE]: 'gray',
+    [commonStatus.DELETE]: 'red',
 };
 
 export const appAccount = {
@@ -458,10 +473,10 @@ export const PaymentState = [
 ];
 
 export const salaryPeriodKInd = [
-    { value: FIXED_SALARY, label: commonMessage.fixed_salary, color: '#d07d3e' },
+    { value: FIXED_SALARY, label: commonMessage.fixed_salary, color: 'green' },
     { value: PROJECT_SALARY, label: commonMessage.task, color: 'blue' },
-    { value: REFER_MONEY, label: commonMessage.refer_money, color: '#69bdd2' },
-    { value: BUG_MONEY, label: commonMessage.bug, color: '#e07b39' },
+    { value: REFER_MONEY, label: commonMessage.refer_money, color: 'purple' },
+    { value: BUG_MONEY, label: commonMessage.bug, color: 'volcano' },
     { value: DAY_OFF, label: commonMessage.day_off, color: 'red' },
 ];
 
@@ -484,3 +499,37 @@ export const versionState = {
     VERSION_STATE_PROCESS,
     VERSION_STATE_WAITING,
 };
+
+export const REGISTRATION_STATE_REGISTER = 1;
+export const REGISTRATION_STATE_LEARNING = 2;
+export const REGISTRATION_STATE_FINISHED = 3;
+export const REGISTRATION_STATE_CANCEL = 4;
+
+//1 pending, 2 testing, 3 done, 4 cancel
+
+export const TASKTESTING_STATE_PENDING = 1;
+export const TASKTESTING_STATE_TESTING = 2;
+export const TASKTESTING_STATE_DONE = 3;
+export const TASKTESTING_STATE_CANCEL = 4;
+export const taskTestingState = {
+    TASKTESTING_STATE_PENDING,
+    TASKTESTING_STATE_TESTING,
+    TASKTESTING_STATE_DONE,
+    TASKTESTING_STATE_CANCEL,
+};
+export const TASK_TESTING_PASSED = 1;
+export const TASK_TESTING_FAILED = 2;
+
+export const KIND_TEST_HISTORY_CASE = 1;
+export const KIND_TEST_HISTORY_SCENARIO = 2;
+
+export const RISK_RATIO_DEV = 1;
+export const RISK_RATIO_CTO = 2;
+
+export const TYPE_TEST_PLAN = 1;
+export const TYPE_TEST_SCENARIO = 2;
+
+export const CONTENT_HISTORY_KIND_STORY = 1;
+export const CONTENT_HISTORY_KIND_PROJECT_TASK = 2;
+export const CONTENT_HISTORY_KIND_TEST_SCENARIO = 3;
+export const CONTENT_HISTORY_KIND_TEST_CASE = 4;

@@ -414,6 +414,15 @@ const useListBase = ({
                                     }
 
                                     break;
+                                case 'task':
+                                    if (isProjectToken) {
+                                        isShow = true;
+                                    } else mixinFuncs.hasPermission([apiConfig.update?.baseURL, apiConfig.getById?.baseURL]);
+                                    {
+                                        isShow = true;
+                                    }
+
+                                    break;
                                 default:
                                     // if (mixinFuncs.hasPermission(value?.permissions)) isShow = true;
                                     isShow = true;
@@ -426,7 +435,7 @@ const useListBase = ({
     };
 
     const renderActionColumn = (
-        action = { edit: false, delete: false, changeStatus: false },
+        action = { edit: false, delete: false, changeStatus: false, task: false },
         columnsProps,
         buttonProps,
     ) => {

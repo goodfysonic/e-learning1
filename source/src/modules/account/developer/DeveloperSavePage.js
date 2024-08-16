@@ -71,7 +71,7 @@ const DeveloperSavePage = () => {
         >
             <DeveloperForm
                 setIsChangedFormValues={setIsChangedFormValues}
-                dataDetail={detail ? detail : {}}
+                dataDetail={detail || {}}
                 formId={mixinFuncs.getFormId()}
                 isEditing={isEditing}
                 actions={mixinFuncs.renderActions()}

@@ -32,6 +32,7 @@ const StudentForm = ({ isEditing, formId, actions, dataDetail, onSubmit, setIsCh
         onSubmit,
         setIsChangedFormValues,
     });
+    
     const uploadFile = (file, onSuccess, onError) => {
         executeUpFile({
             data: {

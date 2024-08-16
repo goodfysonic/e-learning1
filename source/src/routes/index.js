@@ -12,7 +12,9 @@ import PageNotAllowed from '@components/common/page/PageNotAllowed';
 
 import developerRoutes from '@modules/account/developer/routes';
 import studentRoutes from '@modules/account/student/routes';
-import subjectRoutes from '@modules/Subject/routes';
+import subjectRoutes from '@modules/subject_management/course/subject/routes';
+import courseRoutes from '@modules/subject_management/course/routes';
+import taskRoutes from '@modules/subject_management/course/task/routes';
 /*
     auth
         + null: access login and not login
@@ -53,6 +55,9 @@ const routes = {
     ...developerRoutes,
     ...studentRoutes,
     ...subjectRoutes,
+    ...courseRoutes,
+    ...taskRoutes,
+    //
   
    
     // keep this at last

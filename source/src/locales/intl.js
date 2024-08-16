@@ -55,6 +55,7 @@ export const commonMessage = defineMessages({
     studentName: 'Tên sinh viên',
     subject: 'Môn học',
     subjectName: 'Tên môn học',
+    subjectCode: 'Mã môn học',
     task: 'Task',
     story: 'Story',
     team: 'Nhóm',
@@ -126,7 +127,7 @@ export const commonMessage = defineMessages({
     registerPeriodSalarySuccess_1: 'cập nhật kỳ lương thành công',
     registerPeriodSalaryFail_1: 'Không tìm thấy kỳ lương',
     registerPeriodSalaryFail_2: 'Đã có kỳ lương k thể taọ hoặc cập nhật',
-
+    tuitionfee: "Học phí",
     isPaid: 'Được trả lương',
     moneyForMember: 'Lương thành viên',
     caculateSalary: 'Tính lương',
